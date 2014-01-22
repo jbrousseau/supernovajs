@@ -17,12 +17,12 @@ module.exports = {
       required: true
     },
 
-    title: {
+    sessionId: {
       type: 'string'
     },
 
     email: {
-      type: 'string',
+      type: 'email',
       email: true,
       required: true,
       unique: true

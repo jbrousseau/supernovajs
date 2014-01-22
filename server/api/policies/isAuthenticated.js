@@ -7,15 +7,35 @@
  * @docs        :: http://sailsjs.org/#!documentation/policies
  *
  */
+var express = require('express');
+var app = express();
+var passport = require('passport');
+var local = require('../../config/local');
+ 
+app.use(passport.initialize());
+ 
+/**
+ * Allow any authenticated user.
+ */
 module.exports = function(req, res, next) {
-
-  // User is allowed, proceed to the next policy, 
-  // or if this is the last policy, the controller
-  if (req.session.authenticated) {
-    return next();
+  if (!req.query.sessionId) {
+    return res.forbidden('no session');
   }
-
-  // User is not allowed
-  // (default res.forbidden() behavior can be overridden in `config/403.js`)
-  return res.forbidden('You are not permitted to perform this action.');
+  User.findOneBySessionId(req.query.sessionId, function(err, user) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.forbidden('invalid session');
+    }
+    req.user = user;
+    return next();
+  });
+  // User is allowed, proceed to controller
+  /*passport.authenticate('signature', {session: false}, function(err, user, info) {
+    if (err || !user) {
+      return res.forbidden("You are not permitted to perform this action. " + info);
+    }
+    return next();
+  })(req, res, next);*/
 };
