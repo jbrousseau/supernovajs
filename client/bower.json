@@ -1,0 +1,12 @@
+{
+    "name": "supernova.js",
+    "version": "0.0.0",
+    "description": "a powerful open source CMS build on Sails and Angular",
+    "directory": "assets/linker/lib",
+    "dependencies": {
+        "jquery": "latest",
+        "bootstrap": "latest",
+        "angular-latest": "latest",
+        "angular-ui": "latest"
+    }
+}
