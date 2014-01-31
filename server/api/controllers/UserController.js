@@ -26,25 +26,17 @@ module.exports = {
 
       if (err) {
         // If error redirect back to sign-up page
-        return res.json(err);
+        return res.badRequest(err);
       }
 
       // Change status to online
       user.online = true;
       user.save(function (err, user) {
-        if (err) return next(err);
+        if (err) {
+          return next(err);
+        }
 
-        // add the action attribute to the user object for the flash message.
-        user.action = " signed-up and logged-in."
-
-        // Let other subscribed sockets know that the user was created.
-        User.publishCreate(user);
-
-        // After successfully creating the user
-        // redirect to the show action
-        // From ep1-6: //res.json(user);
-
-        res.json(user);
+        res.redirect('/session/create?email='+userObj.email+'&password='+userObj.password);
       });
     });
   },
@@ -76,9 +68,9 @@ module.exports = {
 
   // process the info from edit view
   update: function (req, res, next) {
-
+    var userObj = null;
     if (req.user.admin) {
-      var userObj = {
+      userObj = {
         name: req.param('name'),
         title: req.param('title'),
         email: req.param('email'),
@@ -86,7 +78,7 @@ module.exports = {
       }
     }
     else {
-      var userObj = {
+      userObj = {
         name: req.param('name'),
         title: req.param('title'),
         email: req.param('email')
@@ -97,7 +89,7 @@ module.exports = {
       if (err) {
         return res.json(err);
       }
-      res.json(user);
+      res.json('success');
     });
   },
 
@@ -115,17 +107,9 @@ module.exports = {
         if (err) {
           return next(err);
         }
-        // Inform other sockets (e.g. connected sockets that are subscribed) that this user is now logged in
-        User.publishUpdate(user.id, {
-          name: user.name,
-          action: ' has been destroyed.'
-        });
-
-        // Let other sockets know that the user instance was destroyed.
-        User.publishDestroy(user.id);
-
+        res.json('successfully destroyed');
       });
-      res.json(user);
+
     });
   },
 

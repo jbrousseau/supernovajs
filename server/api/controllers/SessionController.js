@@ -42,12 +42,12 @@ module.exports = {
         var now = new Date();
         var jsonDate = now.toJSON();
 
-        bcrypt.hash(user.name+jsonDate, 10, function passwordEncrypted(err, encryptedSessionId) {
+        bcrypt.hash(user.name + jsonDate, 10, function passwordEncrypted(err, encryptedSessionId) {
           if (err) return next(err);
           user.sessionId = encryptedSessionId;
           user.save(function (err, user) {
             if (err) return next(err);
-              return res.json(user);
+            return res.json(user);
           });
         });
       });
@@ -56,39 +56,27 @@ module.exports = {
 
   destroy: function (req, res, next) {
 
-    User.findOne(req.session.User.id, function foundUser(err, user) {
+    User.findOne(req.user.id, function foundUser(err, user) {
 
-      var userId = req.session.User.id;
+      var userId = req.user.id;
 
-      if (user) {
+      if (userId) {
         // The user is "logging out" (e.g. destroying the session) so change the online attribute to false.
         User.update(userId, {
-          online: false
+          online: false,
+          sessionId: null
         }, function (err) {
-          if (err) return next(err);
+          if (err) {
+            return next(err);
+          }
+          req.user = null;
 
-          // Inform other sockets (e.g. connected sockets that are subscribed) that the session for this user has ended.
-          User.publishUpdate(userId, {
-            loggedIn: false,
-            id: userId,
-            name: user.name,
-            action: ' has logged out.'
-          });
-
-          // Wipe out the session (log out)
-          req.session.destroy();
-
-          // Redirect the browser to the sign-in screen
-          res.redirect('/session/new');
+          res.json('session destroyed sucessfully');
         });
       }
       else {
-
-        // Wipe out the session (log out)
-        req.session.destroy();
-
         // Redirect the browser to the sign-in screen
-        res.redirect('/session/new');
+        res.badRequest('error no session found');
       }
     });
   }
