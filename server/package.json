@@ -1,24 +1,35 @@
 {
-    "name": "supernova.js",
-    "private": true,
-    "version": "0.0.1",
-    "description": "a powerful open source CMS build on Sails.js and Angular.js",
-    "dependencies": {
-        "sails": "0.9.8",
-        "grunt": "0.4.1",
-        "sails-mongo": "~0.9.4",
-        "ejs": "0.8.4",
-        "optimist": "0.3.4",
-        "bcrypt": "~0.7.6",
-        "passport":"0.1.18",
-        "passport-signatures":"0.0.2"
-    },
-    "scripts": {
-        "start": "node app.js",
-        "debug": "node debug app.js"
-    },
-    "main": "app.js",
-    "repository": "",
-    "author": "",
-    "license": ""
+  "name": "supernova.js",
+  "private": false,
+  "version": "0.0.1",
+  "author": "jbrousseau",
+  "description": "a powerful open source CMS build on Sails.js and Angular.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jbrousseau/supernovajs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jbrousseau/supernovajs/issues"
+  },
+  "licenses": [{
+    "type": "MIT",
+    "url": "https://raw.github.com/jbrousseau/supernovajs/master/LICENSE"
+  }],
+  "dependencies": {
+    "sails": "0.9.8",
+    "grunt": "0.4.1",
+    "grunt-karma": "~0.4.4",
+    "grunt-html2js": "~0.1.0",
+    "sails-mongo": "~0.9.4",
+    "ejs": "0.8.4",
+    "optimist": "0.3.4",
+    "bcrypt": "~0.7.6",
+    "passport": "0.1.18",
+    "passport-signatures": "0.0.2"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "debug": "node debug app.js"
+  },
+  "main": "app.js"
 }

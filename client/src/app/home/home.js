@@ -3,10 +3,8 @@
 var supernovaApp = angular.module('supernovaApp', []);
 
 
-supernovaApp.controller('AppCtrl', ['$scope', '$http', function($scope, $http) {
- $http.get('user').success(function(data) {
-    $scope.phones = data;
-  });
+supernovaApp.controller('AppCtrl', ['$scope', '$http', function ($scope, $http) {
+ $scope.hello = "helloworld";
 }]);
 
 /*
@@ -20,7 +18,7 @@ phonecatApp.controller('PhoneListCtrl', ['$scope', '$routeParams', '$http',
 */
 
 /*phonecatApp.controller('PhoneListCtrl', function($scope) {
- 
+
 
   $scope.phones = [
     {'name': 'Nexus S',
