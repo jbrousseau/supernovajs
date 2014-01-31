@@ -18,7 +18,9 @@ module.exports.policies = {
 
   user: {
 		create: true,
-		update: "isAuthenticated",
-    '*': ["isAuthenticated", "isAdmin"]
+		update: ['isAuthenticated', 'isOwner'],
+		destroy: ['isAuthenticated', 'isOwner'],
+		show: ['isAuthenticated', 'isOwner'],
+    '*': ['isAuthenticated', 'isAdmin']
   }
 };
